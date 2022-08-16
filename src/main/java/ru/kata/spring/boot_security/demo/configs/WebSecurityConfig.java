@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import ru.kata.spring.boot_security.demo.configs.handlers.SuccessUserHandler;
 import ru.kata.spring.boot_security.demo.security.CustomUserDetailsService;
 
 
@@ -14,8 +15,8 @@ import ru.kata.spring.boot_security.demo.security.CustomUserDetailsService;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private SuccessUserHandler successUserHandler;
-    private CustomUserDetailsService userDetailsService;
+    private final SuccessUserHandler successUserHandler;
+    private final CustomUserDetailsService userDetailsService;
 
     public WebSecurityConfig(SuccessUserHandler successUserHandler, CustomUserDetailsService userService) {
         this.successUserHandler = successUserHandler;
@@ -28,6 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasAnyRole("ADMIN")
                 .antMatchers("/user").hasAnyRole("ADMIN", "USER")
+                .antMatchers("/").permitAll()
                 .and()
                 .formLogin().successHandler(successUserHandler)
                 .permitAll()

@@ -8,6 +8,7 @@ import ru.kata.spring.boot_security.demo.entity.User;
 import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -29,6 +30,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    @Transactional
     public void saveUser(User user) {
         encodePassword(user);
         userRepository.save(user);
@@ -38,11 +40,13 @@ public class UserService {
         return userRepository.findById(id).orElseGet(User::new);
     }
 
+    @Transactional
     public void updateUser(User user) {
         encodePassword(user);
         userRepository.save(user);
     }
 
+    @Transactional
     public void deleteUser(long id) {
         userRepository.deleteById(id);
     }
@@ -61,11 +65,11 @@ public class UserService {
         return user;
     }
 
-    public String getPrincipalUsername() {
+    public User getAuthenticatedUser() {
         org.springframework.security.core.userdetails.User principal =
                 (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext()
                         .getAuthentication().getPrincipal();
-        return principal.getUsername();
+        return getUserByEmail(principal.getUsername());
 
     }
 

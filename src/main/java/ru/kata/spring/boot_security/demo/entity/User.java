@@ -19,7 +19,7 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
-    private byte age;
+    private Byte age;
 
     private String email;
 
@@ -34,7 +34,7 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, String lastName, byte age, String email, String password) {
+    public User(String firstName, String lastName, Byte age, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
@@ -66,11 +66,11 @@ public class User {
         this.lastName = lastName;
     }
 
-    public byte getAge() {
+    public Byte getAge() {
         return age;
     }
 
-    public void setAge(byte age) {
+    public void setAge(Byte age) {
         this.age = age;
     }
 
